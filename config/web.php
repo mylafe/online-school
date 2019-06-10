@@ -58,7 +58,7 @@ $config = [
             'rules' => [
 
                 /** 路由 **/
-                '/v1/home/list' => '/member/home/list', // 首页
+                '/v1/demo/transaction' => '/member/home/list', // 首页
 
             ],
         ],

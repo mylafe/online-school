@@ -19,6 +19,7 @@ class TokenBehavior extends Behavior
 
     public $explodeRoute = [// 免登陆配置
         '/v1/home/list',
+        '/v1/demo/transaction',
     ];
 
     public function beforeAction($event)
