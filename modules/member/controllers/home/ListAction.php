@@ -25,7 +25,7 @@ class ListAction extends Action
                 $test->name = 'name'.$i;
                 $test->phone=str_repeat($i,11);
                 if($test->save()){
-                    echo "save $i | ";
+                    echo "新增$i\r";
                 }
 
             }
@@ -47,7 +47,7 @@ class ListAction extends Action
         } catch (\Exception $e) {
             //回滚
             $tr->rollBack();
-            echo  "rollback";
+            echo  "异常，回滚。(rollback)";
         }
 
     }
