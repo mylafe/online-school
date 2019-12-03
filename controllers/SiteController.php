@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\onlineschoole\Lesson;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -9,6 +10,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use yii\data\Pagination;
 
 class SiteController extends Controller
 {
@@ -56,12 +58,24 @@ class SiteController extends Controller
 
     /**
      * Displays homepage.
-     *
+     * 首页
      * @return string
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $query = Lesson::find();
+        //课程列表
+        $lessonArray = $query->where(['is_release'=>'1'])->orderBy('gmt_create DESC')->asArray()->all();
+        //课程总量
+        $lessonCount = $query->count();
+        //分页
+        $pages = new Pagination(['totalCount' =>$lessonCount, 'pageSize' => \Yii::$app->params['page_size']]);
+
+        $data = [
+            'lessonArray'=>$lessonArray,
+            'pages' => $pages
+        ];
+        return $this->render('index', $data);
     }
 
     /**
