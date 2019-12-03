@@ -3,7 +3,7 @@
 if(YII_ENV_DEV) {
     return [
         'class' => 'yii\db\Connection',
-        'dsn' => 'mysql:host=127.0.0.1;dbname=member',
+        'dsn' => 'mysql:host=127.0.0.1;dbname=online_school',
         'username' => 'root',
         'password' => '',
         'charset' => 'utf8',
@@ -16,7 +16,7 @@ if(YII_ENV_DEV) {
 } else if(YII_ENV_TEST) {
     return [
         'class' => 'yii\db\Connection',
-        'dsn' => 'mysql:host=127.0.0.1;dbname=member',
+        'dsn' => 'mysql:host=127.0.0.1;dbname=online_school',
         'username' => 'root',
         'password' => '',
         'charset' => 'utf8',
@@ -29,7 +29,7 @@ if(YII_ENV_DEV) {
 } else if(YII_ENV_PROD) {
     return [
         'class' => 'yii\db\Connection',
-        'dsn' => 'mysql:host=127.0.1;dbname=member',
+        'dsn' => 'mysql:host=127.0.1;dbname=online_school',
         'username' => 'root',
         'password' => '',
         'charset' => 'utf8',
