@@ -22,9 +22,10 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/site.css',
         'css/font-awesome-4.7.0/css/font-awesome.min.css',
+        'css/sweetalert2.min.css',
     ];
     public $js = [
-        'js/jquery.js',
+        'js/sweetalert2.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

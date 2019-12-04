@@ -28,9 +28,7 @@ class HomeController extends BaseController
      */
     public function actions()
     {
-        return [
-            'list' => 'app\modules\member\controllers\home\ListAction', //首页列表
-        ];
+        return [];
 
     }
 

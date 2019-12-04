@@ -1,0 +1,40 @@
+.seoicn {
+    position: absolute;
+    left: 25px;
+    bottom: 6px;
+    font-size: 18px;
+    color: rgb(176, 190, 197);
+    transition: all 1.5s ease 0s;
+}
+.lesson-title {
+    height: 38px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.lesson-short-title {
+    height: 26px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+.lesson-list {
+    color: #000;
+}
+.lesson-list:hover {
+    color: #ff0000;
+    text-decoration: none;
+}
+.lesson-tag {
+    font-size: 12px;
+    position: absolute;
+    left: 20px;
+    top: 6px;
+}
+.slimg img:hover {
+    -webkit-filter: opacity(50%);
+    filter: opacity(50%);
+}

@@ -35,25 +35,25 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+    if (Yii::$app->user->isGuest) {
+        $rightMenus[] = ['label' => '首页', 'url' => ['/site/index']];
+        $rightMenus[] = ['label' => '登录', 'url' => ['/site/login']];
+        $rightMenus[] = ['label' => '注册', 'url' => ['/site/signup']];
+    } else {
+        $rightMenus[] = ['label' => '首页', 'url' => ['/site/index']];
+        $rightMenus[] = [
+            'label'=> ' 欢迎您，' . Yii::$app->user->identity->username,
+            'linkOptions' => ['class'=>'avatar'],
+            'items'=>[
+                ['label'=>'<i class="fa fa-user">个人中心</i>','url'=>['/site/center'],'linkOptions'=>['data-method'=>'post']],
+                ['label'=>'<i class="fa fa-sign-out">退出</i>','url'=>['/site/logout'],'linkOptions'=>['data-method'=>'post']],
+            ],
+        ];
+    }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => '首页', 'url' => ['/site/index']],
-            ['label' => '关于', 'url' => ['/site/about']],
-            ['label' => '联系我们', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest ? (
-                ['label' => '登录', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    '退出 (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
-        ],
+        'encodeLabels' =>false,
+        'items' => $rightMenus,
     ]);
     NavBar::end();
     ?>
@@ -69,7 +69,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">备案号xxxxxxxx &copy; demo <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>

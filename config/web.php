@@ -6,6 +6,7 @@ $db = require __DIR__ . '/db.php';
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
+    'language' => 'zh-CN',//开启中文
     'bootstrap' => ['log'],
     'defaultRoute'=>'site',// 添加默认路由
     'aliases' => [
@@ -27,7 +28,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\common\Manager',
+            'identityClass' => 'app\models\onlineschoole\User',
             'enableAutoLogin' => true,
             'enableSession' => true,
         ],

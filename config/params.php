@@ -6,7 +6,7 @@ return [
     'senderEmail' => 'noreply@example.com',
     'senderName' => 'Example.com mailer',
     //分页数量
-    'page_size' => 10,
+    'page_size' => 8,
     //课程类型
     'lesson_type' => ['0'=>'视频', '1'=>'音频', '2'=>'图文'],
 ];
