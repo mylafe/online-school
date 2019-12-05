@@ -9,8 +9,6 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
 use yii\data\Pagination;
 
 class SiteController extends Controller
@@ -58,7 +56,6 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays homepage.
      * 首页
      * @return string
      */
@@ -98,7 +95,6 @@ class SiteController extends Controller
     }
 
     /**
-     * Login action.
      * 登录
      * @return Response|string
      */
@@ -124,8 +120,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Logout action.
-     *
+     * 退出
      * @return Response
      */
     public function actionLogout()
@@ -136,30 +131,11 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays contact page.
-     *
-     * @return Response|string
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
-        }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Displays about page.
-     *
+     * 请求资源404 error
      * @return string
      */
-    public function actionAbout()
+    public function actionError()
     {
-        return $this->render('about');
+        return $this->render('error');
     }
 }

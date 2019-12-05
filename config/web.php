@@ -14,9 +14,6 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'modules' => [  // 添加模块
-        'member' => [
-            'class' => 'app\modules\member\Module',
-        ],
     ],
     'components' => [
         'request' => [
@@ -59,7 +56,6 @@ $config = [
             'rules' => [
 
                 /** 路由 **/
-                '/v1/demo/transaction' => '/member/home/list', // 首页
 
             ],
         ],

@@ -36,9 +36,9 @@ $this->title = 'demo';
                     <h4>暂无数据！</h4>
                 <?php else:?>
                     <?php foreach($lessonArray as $vo):?>
-                        <div class="col-lg-3" style="margin-bottom: 10px;">
+                        <div class="col-sm-3 col-lg-3" style="margin-bottom: 10px;">
                             <div class="loop-container">
-                                <a class="lesson-list" href="<?=Url::toRoute(['site/list','code'=>$vo['code']])?>">
+                                <a class="lesson-list" href="<?=Url::toRoute(['lesson/detail','code'=>$vo['code']])?>">
                                     <!--课程封面-->
                                     <p class="slimg">
                                         <img class="img-rounded" src="<?= $vo['cover']?>" width="100%" height="150">
