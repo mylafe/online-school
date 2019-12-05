@@ -131,6 +131,25 @@ class SiteController extends Controller
     }
 
     /**
+     * *个人中心
+     * @return [type] [description]
+     */
+    public function actionPercenter()
+    {
+        //未登录返回首页
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $uuid = Yii::$app->user->identity->uuid;
+        $data = User::findOne(['uuid'=>$uuid]);
+
+        return $this->render('percenter',[
+            'data'=>$data
+        ]);
+    }
+
+    /**
      * 请求资源404 error
      * @return string
      */

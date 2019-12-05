@@ -50,4 +50,10 @@ class Util
         }
         return substr(str_shuffle(str_repeat($pool, ceil($len / strlen($pool)))), 0, $len);
     }
+
+    //格式化手机号码
+    public static function format_call($phone)
+    {
+        return substr_replace($phone, '****', 3, 4);
+    }
 }

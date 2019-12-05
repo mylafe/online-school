@@ -38,14 +38,14 @@ AppAsset::register($this);
     if (Yii::$app->user->isGuest) {
         $rightMenus[] = ['label' => '首页', 'url' => ['/site/index']];
         $rightMenus[] = ['label' => '登录', 'url' => ['/site/login']];
-        $rightMenus[] = ['label' => '注册', 'url' => ['/site/signup']];
+//        $rightMenus[] = ['label' => '注册', 'url' => ['/site/signup']];
     } else {
         $rightMenus[] = ['label' => '首页', 'url' => ['/site/index']];
         $rightMenus[] = [
             'label'=> ' 欢迎您，' . Yii::$app->user->identity->username,
             'linkOptions' => ['class'=>'avatar'],
             'items'=>[
-                ['label'=>'<i class="fa fa-user">个人中心</i>','url'=>['/site/center'],'linkOptions'=>['data-method'=>'post']],
+                ['label'=>'<i class="fa fa-user">个人中心</i>','url'=>['/site/percenter'],'linkOptions'=>['data-method'=>'post']],
                 ['label'=>'<i class="fa fa-sign-out">退出</i>','url'=>['/site/logout'],'linkOptions'=>['data-method'=>'post']],
             ],
         ];

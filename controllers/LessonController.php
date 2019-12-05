@@ -93,7 +93,7 @@ class LessonController extends Controller
     //新增留言
     public function actionAddNote()
     {
-        //游客模式请求
+        //游客模式请求返回首页
         if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
