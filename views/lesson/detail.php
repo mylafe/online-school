@@ -113,10 +113,11 @@ $this->title = $lessonInfo['name'];
                                 <small class="text-muted"><?php echo Util::format_time(strtotime($vo['gmt_create']));?></small>
                                 <small class="text-muted">
                                     <?php
+                                    $tem = '';
                                     for ($x=1; $x<=$vo['level']; $x++) {
-                                        $tem{$key} .= '★';
+                                        $tem .= '★';
                                     }
-                                    echo $tem{$key};
+                                    echo $tem;
                                     ?>
                                 </small>
                             </div>
