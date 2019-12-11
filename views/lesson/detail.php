@@ -127,6 +127,18 @@ $this->title = $lessonInfo['name'];
                         </div>
                     </div>
                 <?php endforeach;?>
+                <!--分页-->
+                <div>
+                    <div>
+                        <?= LinkPager::widget([
+                            'pagination'=>$pages,
+                            'firstPageLabel' => '首页',
+                            'nextPageLabel' => '下一页',
+                            'prevPageLabel' => '上一页',
+                            'lastPageLabel' => '末页',
+                        ]) ?>
+                    </div>
+                </div>
             <?php endif;?>
         </div>
     </div>

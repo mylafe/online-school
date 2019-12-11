@@ -86,9 +86,18 @@ class SiteController extends Controller
         //offset偏移量 limit分页数
         $lessonArray = $lessonArray->offset($pages->offset)->limit($pages->limit)->all();
 
+        //推荐课程(后台配置) 最多展示三条
+        $recommendLesson = Lesson::find()
+            ->where(['is_release'=>'1','is_recommend'=>'1'])
+            ->orderBy('sort DESC,gmt_create DESC')
+            ->limit('3')
+            ->asArray()
+            ->all();
+
         $data = [
             'lessonArray'=>$lessonArray,
-            'pages' => $pages
+            'pages' => $pages,
+            'recommendLesson' => $recommendLesson
         ];
         //组装好的数据render到对应view
         return $this->render('index', $data);
@@ -107,6 +116,8 @@ class SiteController extends Controller
 
         //实例化user类
         $model = new User();
+        //设置一个校验场景
+        $model->scenario = 'add';
         //载入post数据登录校验
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             //登录成功返回首页
@@ -146,6 +157,31 @@ class SiteController extends Controller
 
         return $this->render('percenter',[
             'data'=>$data
+        ]);
+    }
+
+    /**
+     * 注册
+     */
+    public function actionSignup()
+    {
+        //实例化user模型
+        $model = new User();
+        //设置一个校验场景
+        $model->scenario = 'reg';
+        //post提交
+        if ($model->load(Yii::$app->request->post())) {
+            //新增成功
+            if ($user = $model->signup(Yii::$app->request->post())) {
+                //登录跳转
+                if (Yii::$app->getUser()->login($user)) {
+                    return $this->goHome();
+                }
+            }
+        }
+
+        return $this->render('signup', [
+            'model' => $model,
         ]);
     }
 

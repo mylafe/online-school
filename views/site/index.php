@@ -27,6 +27,28 @@ $this->title = 'demo';
             </div>
         </div>
     </div>
+    <!--推荐课程位-->
+    <?php if(!empty($recommendLesson)) :?>
+    <div class="col-sm-12" style="margin-top: 50px;">
+        <div class="body-content">
+            <h3><i class="fa fa-star" aria-hidden="true"></i> 推荐课程</h3>
+            <div class="row">
+                <?php foreach($recommendLesson as $vo):?>
+                <div class="col-sm-4">
+                    <div class="thumbnail">
+                        <img src="<?= $vo['cover']?>" alt="<?= $vo['name']?>" width="100%" height="150">
+                        <div class="caption">
+                            <h4><?= $vo['name']?></h4>
+                            <p><?= $vo['short_name']?></p>
+                            <p style="text-align: right"><a href="<?=Url::toRoute(['lesson/detail','code'=>$vo['code']])?>" class="btn btn-default" role="button">查看详情</a></p>
+                        </div>
+                    </div>
+                </div>
+                <?php endforeach;?>
+            </div>
+        </div>
+    </div>
+    <?php endif;?>
     <!--全部课程-->
     <div class="col-sm-12" style="margin-top: 50px;">
         <div class="body-content">

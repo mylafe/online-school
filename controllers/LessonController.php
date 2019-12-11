@@ -74,17 +74,22 @@ class LessonController extends Controller
         $lessonInfo->learn_count += 1;
         $lessonInfo->save(false);
 
-        //获取评论列表
-        $commentInfo = LessonComment::find()
+        $query = LessonComment::find()
             ->select('code,uuid,content,level,gmt_create')
-            ->where(['lesson_code'=>$code, 'is_delete'=>'0'])
-            ->orderBy('is_top desc,gmt_create desc')
-            ->asArray()
-            ->all();
+            ->where(['lesson_code'=>$code, 'is_delete'=>'0']);
+        //评论总量
+        $commentCount = $query->count();
+        //获取评论列表
+        $commentInfo = $query->orderBy('is_top desc,gmt_create desc');
+        //分页
+        $pages = new Pagination(['totalCount' =>$commentCount, 'pageSize' => \Yii::$app->params['page_size_ten']]);
+        //offset偏移量 limit分页数
+        $commentInfo = $commentInfo->offset($pages->offset)->limit($pages->limit)->all();
 
         $data = [
             'lessonInfo' => $lessonInfo,
-           'commentInfo' => $commentInfo
+           'commentInfo' => $commentInfo,
+                 'pages' => $pages
         ];
 
         return $this->render('detail', $data);

@@ -38,7 +38,7 @@ AppAsset::register($this);
     if (Yii::$app->user->isGuest) {
         $rightMenus[] = ['label' => '首页', 'url' => ['/site/index']];
         $rightMenus[] = ['label' => '登录', 'url' => ['/site/login']];
-//        $rightMenus[] = ['label' => '注册', 'url' => ['/site/signup']];
+        $rightMenus[] = ['label' => '注册', 'url' => ['/site/signup']];
     } else {
         $rightMenus[] = ['label' => '首页', 'url' => ['/site/index']];
         $rightMenus[] = [

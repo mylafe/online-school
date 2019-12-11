@@ -18,6 +18,7 @@ use Yii;
  * @property string $detail 详情
  * @property string $learn_count 学习人数
  * @property string $show_learn_count 学习人数基数
+ * @property int $is_recommend 是否推荐
  * @property int $sort 排序
  * @property int $is_release 是否已发布：0 否 1 是
  * @property string $create_uuid 创建人

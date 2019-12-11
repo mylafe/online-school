@@ -38,3 +38,17 @@
     -webkit-filter: opacity(50%);
     filter: opacity(50%);
 }
+
+.thumbnail img {
+    height: 150px;
+}
+.caption h4 {
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+.caption p {
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
