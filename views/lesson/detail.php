@@ -5,6 +5,8 @@ use yii\widgets\LinkPager;
 use app\assets\AppAsset;
 use app\models\onlineschoole\User;
 use app\components\Util;
+use app\models\onlineschoole\Question;
+use app\models\onlineschoole\QuestionOption;
 /* @var $this yii\web\View */
 
 AppAsset::register($this);
@@ -12,6 +14,119 @@ $this->registerCssFile('/css/lesson.css', [AppAsset::className(), 'depends' => '
 
 $this->title = $lessonInfo['name'];
 ?>
+<style>
+    @keyframes hover-color {
+        from {
+            border-color: #c0c0c0; }
+        to {
+            border-color: #3e97eb; } }
+
+    .magic-radio,
+    .magic-checkbox {
+        position: absolute;
+        display: none; }
+
+    .magic-radio[disabled],
+    .magic-checkbox[disabled] {
+        cursor: not-allowed; }
+
+    .magic-radio + label,
+    .magic-checkbox + label {
+        position: relative;
+        display: block;
+        padding-left: 30px;
+        cursor: pointer;
+        vertical-align: middle; }
+    .magic-radio + label:hover:before,
+    .magic-checkbox + label:hover:before {
+        animation-duration: 0.4s;
+        animation-fill-mode: both;
+        animation-name: hover-color; }
+    .magic-radio + label:before,
+    .magic-checkbox + label:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        content: '';
+        border: 1px solid #c0c0c0; }
+    .magic-radio + label:after,
+    .magic-checkbox + label:after {
+        position: absolute;
+        display: none;
+        content: ''; }
+
+    .magic-radio[disabled] + label,
+    .magic-checkbox[disabled] + label {
+        cursor: not-allowed;
+        color: #e4e4e4; }
+    .magic-radio[disabled] + label:hover, .magic-radio[disabled] + label:before, .magic-radio[disabled] + label:after,
+    .magic-checkbox[disabled] + label:hover,
+    .magic-checkbox[disabled] + label:before,
+    .magic-checkbox[disabled] + label:after {
+        cursor: not-allowed; }
+    .magic-radio[disabled] + label:hover:before,
+    .magic-checkbox[disabled] + label:hover:before {
+        border: 1px solid #e4e4e4;
+        animation-name: none; }
+    .magic-radio[disabled] + label:before,
+    .magic-checkbox[disabled] + label:before {
+        border-color: #e4e4e4; }
+
+    .magic-radio:checked + label:before,
+    .magic-checkbox:checked + label:before {
+        animation-name: none; }
+
+    .magic-radio:checked + label:after,
+    .magic-checkbox:checked + label:after {
+        display: block; }
+
+    .magic-radio + label:before {
+        border-radius: 50%; }
+
+    .magic-radio + label:after {
+        top: 7px;
+        left: 7px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #3e97eb; }
+
+    .magic-radio:checked + label:before {
+        border: 1px solid #3e97eb; }
+
+    .magic-radio:checked[disabled] + label:before {
+        border: 1px solid #c9e2f9; }
+
+    .magic-radio:checked[disabled] + label:after {
+        background: #c9e2f9; }
+
+    .magic-checkbox + label:before {
+        border-radius: 3px; }
+
+    .magic-checkbox + label:after {
+        top: 2px;
+        left: 7px;
+        box-sizing: border-box;
+        width: 6px;
+        height: 12px;
+        transform: rotate(45deg);
+        border-width: 2px;
+        border-style: solid;
+        border-color: #fff;
+        border-top: 0;
+        border-left: 0; }
+
+    .magic-checkbox:checked + label:before {
+        border: #3e97eb;
+        background: #3e97eb; }
+
+    .magic-checkbox:checked[disabled] + label:before {
+        border: #c9e2f9;
+        background: #c9e2f9; }
+</style>
 <div class="site-index">
     <!--全部詳情-->
     <div class="col-sm-12">
@@ -62,7 +177,7 @@ $this->title = $lessonInfo['name'];
 
     <!--评论详情-->
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-12" style="margin-bottom: 10px;">
             <h4><i class="fa fa-comments" aria-hidden="true"></i>评论：
             <?php if (Yii::$app->user->isGuest):?>
                 <span class="label label-info">请登录后才能评论!</span>
@@ -143,5 +258,61 @@ $this->title = $lessonInfo['name'];
         </div>
     </div>
 
+    <!--问卷开始-->
+    <div class="row">
+        <div class="col-lg-12">
+            <h4><i class="fa fa-line-chart" aria-hidden="true"></i>考试
+                <?php if (Yii::$app->user->isGuest):?>
+                    <span class="label label-info">请登录后开始考试!</span>
+                <?php else:?>
+                    <?php if (empty($paperInfo)):?>
+                        <span class="label label-info">暂无关联考试!</span>
+                    <?php else:?>
+                        <h4>试卷：<?= $paperInfo['name']?></h4>
+                        <span class="label label-danger">总分：<?= $paperInfo['total_score']?> 及格分数线：<?= $paperInfo['pass_score']?></span>
+                    <?php endif;?>
+                    <?php if (empty($paperQuestion)):?>
+                        <span class="label label-info">暂无考试选项!</span>
+                    <?php else:?>
+                        <form role="form" action="<?=Url::toRoute('lesson/add-paper')?>" method="post">
+                            <div class="form-group">
+                                <?php foreach($paperQuestion as $key => $vo):?>
+                                    <!--标题-->
+                                    <h4>
+                                        <?php $name = '';
+                                        $info = Question::findOne(['code'=>$vo['question_code']]);
+                                        if (!empty($info)) {
+                                            $name = $info['content'];
+                                        }
+                                        echo $key+1 .'.'. $name;
+                                        ?>
+                                    </h4>
+                                    <!--获取选项-->
+                                    <?php
+                                        $qusetion = [];
+                                        $qusetionInfo = QuestionOption::find()
+                                            ->where(['question_code'=>$vo['question_code']])
+                                            ->orderBy('sort desc,gmt_create asc')
+                                            ->asArray()->all();
+                                    ?>
+                                    <?php foreach($qusetionInfo as $k => $v):?>
+                                        <input class="magic-radio" id="r<?=$v['id']?>" type="radio" name="<?=$v['question_code']?>" value="<?=$v['id']?>" required>
+                                        <label class="" for="r<?=$v['id']?>"><?=$v['content']?></label>
+                                    <?php endforeach;?>
+                                <?php endforeach;?>
+                            </div>
+                            <input name="lesson_code" type="hidden" value="<?= $lessonInfo['code'];?>">
+                            <input name="paper_code" type="hidden" value="<?= $paperInfo['code'];?>">
+                            <input name="_csrf" type="hidden" id="_csrf" value="<?= Yii::$app->request->csrfToken ?>">
+                            <div class="form-group">
+                                <input class="btn btn-sm btn-primary" type="submit" value="提交">
+                            </div>
+                            </div>
+                        </form>
+                    <?php endif;?>
+                <?php endif;?>
+            </h4>
+        </div>
+    </div>
 </div>
 <?php $this->registerJsFile('/js/lesson.js', [AppAsset::className(), 'depends' => 'app\assets\AppAsset']);?>

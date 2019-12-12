@@ -4,6 +4,9 @@ namespace app\controllers;
 
 use app\models\onlineschoole\Lesson;
 use app\models\onlineschoole\LessonComment;
+use app\models\onlineschoole\LessonPaper;
+use app\models\onlineschoole\Paper;
+use app\models\onlineschoole\PaperQuestion;
 use app\models\onlineschoole\User;
 use Yii;
 use yii\filters\AccessControl;
@@ -86,10 +89,28 @@ class LessonController extends Controller
         //offset偏移量 limit分页数
         $commentInfo = $commentInfo->offset($pages->offset)->limit($pages->limit)->all();
 
+        //获取课程对应的考卷
+        $paperInfo = '';
+        $paperQuestion = [];
+        //获取考卷
+        $paper = LessonPaper::findOne(['lesson_code'=>$code]);
+        if ($paper) {
+            //考卷信息
+            $paperInfo = Paper::findOne(['code'=>$paper['paper_code']]);
+            //考卷问题
+            $paperQuestion = PaperQuestion::find()
+                ->where(['paper_code'=>$paper['paper_code']])
+                ->orderBy('sort desc,gmt_create asc')
+                ->asArray()
+                ->all();
+        }
+
         $data = [
             'lessonInfo' => $lessonInfo,
            'commentInfo' => $commentInfo,
-                 'pages' => $pages
+                 'pages' => $pages,
+             'paperInfo' => $paperInfo,
+         'paperQuestion' => $paperQuestion
         ];
 
         return $this->render('detail', $data);
@@ -124,6 +145,27 @@ class LessonController extends Controller
         } else {
             return $this->redirect(['site/error']);
         }
+    }
+
+    //答题
+    public function actionAddPaper()
+    {
+        //游客模式请求返回首页
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        $request = Yii::$app->request;
+        //非post请求
+        if (!$request->isPost) {
+            return $this->redirect(['site/error']);
+        }
+        //获取提交数据
+        $data = Yii::$app->request->post();
+        $uuid = Yii::$app->user->identity->uuid;
+        //var_dump($data);exit();
+        //todo 提交答案匹配
+
+        return $this->redirect(['lesson/detail','code'=>$data['lesson_code']]);
     }
 
 }
