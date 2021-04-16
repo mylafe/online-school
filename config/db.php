@@ -5,7 +5,7 @@ if(YII_ENV_DEV) {
         'class' => 'yii\db\Connection',
         'dsn' => 'mysql:host=127.0.0.1;dbname=online_school',
         'username' => 'root',
-        'password' => '',
+        'password' => 'root123!@#',
         'charset' => 'utf8',
 
         // Schema cache options (for production environment)
